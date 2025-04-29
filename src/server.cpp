@@ -73,7 +73,7 @@ void Server::SerSocket()
 
 void Server::ServerInit()
 {
-	this->Port = 4444;
+	// this->Port = 4444;
 	SerSocket(); //-> create the server socket
 
 	std::cout << GRE << "Server <" << SerSocketFd << "> Connected" << WHI << std::endl;
@@ -141,7 +141,7 @@ void Server::ReceiveNewData(int fd)
 		ClearClients(fd); //-> clear the client
 		close(fd); //-> close the client socket
 	}
-    
+
 	else{ //-> print the received data
 		buff[bytes] = '\0';
 		std::cout << YEL << "Client <" << fd << "> Data: " << WHI << buff;

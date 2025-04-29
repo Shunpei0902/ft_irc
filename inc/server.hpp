@@ -59,6 +59,7 @@ class Server //-> class for server
 {
     private:
         int Port; //-> server port
+        std::string Password; //-> server password
         int SerSocketFd; //-> server socket file descriptor
         static bool Signal; //-> static boolean for signal
         std::vector<Client> clients; //-> vector of clients
@@ -67,6 +68,7 @@ class Server //-> class for server
         // std::mutex client_mutex;
     public:
         Server(){SerSocketFd = -1;} //-> default constructor
+        Server(int port, std::string password) : Port(port), Password(password) {};
         // ~Server(); //-> destructor
 
         int GetPort() const { return Port; } //-> getter for port
