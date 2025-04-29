@@ -40,26 +40,29 @@ class Client //-> class for client
         // int socket;
         int Fd; //-> client file descriptor
         std::string IPadd; //-> client ip address
-        // std::string nickname;
-        // std::string username;
-        // std::string hostname;
-        // std::vector<std::string> channels;
+        std::string nickname;
+        std::string username;
+        std::string hostname;
+        std::vector<std::string> channels;
     public:
         Client(){}; //-> default constructor
+        // Client(int Fd, std::string IPadd) : Fd(Fd), IPadd(IPadd) {};
+        // Client(int Fd, std::string IPadd, std::string nickname, std::string username, std::string hostname)
+        //     : Fd(Fd), IPadd(IPadd), nickname(nickname), username(username), hostname(hostname) {};
         // Client(int socket, int Fd, std::string IPadd) : socket(socket), Fd(Fd), IPadd(IPadd) {}
         // int Getsocket() const { return socket; }
         int GetFd() const { return Fd; } //-> getter for fd
         void SetFd(int fd){Fd = fd;} //-> setter for fd
         void SetIpAdd(std::string ipadd){IPadd = ipadd;} //-> setter for ipadd
-        // std::string GetIPadd() const { return IPadd; }
-        // std::string GetNickname() const { return nickname; }
-        // std::string GetUsername() const { return username; }
-        // std::string GetHostname() const { return hostname; }
-        // const std::vector<std::string>& GetChannels() const { return channels; }
-        // void SetNickname(const std::string& nickname) { this->nickname = nickname; }
-        // void SetUsername(const std::string& username) { this->username = username; }
-        // void SetHostname(const std::string& hostname) { this->hostname = hostname; }
-        // void JoinChannel(const std::string& channel) { channels.push_back(channel); }
+        std::string GetIPadd() const { return IPadd; }
+        std::string GetNickname() const { return nickname; }
+        std::string GetUsername() const { return username; }
+        std::string GetHostname() const { return hostname; }
+        const std::vector<std::string>& GetChannels() const { return channels; }
+        void SetNickname(const std::string& nickname) { this->nickname = nickname; }
+        void SetUsername(const std::string& username) { this->username = username; }
+        void SetHostname(const std::string& hostname) { this->hostname = hostname; }
+        void JoinChannel(const std::string& channel) { channels.push_back(channel); }
         // void PartChannel(const std::string& channel) {
         //     channels.erase(std::remove(channels.begin(), channels.end(), channel), channels.end());
         // }

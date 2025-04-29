@@ -146,5 +146,28 @@ void Server::ReceiveNewData(int fd)
 		buff[bytes] = '\0';
 		std::cout << YEL << "Client <" << fd << "> Data: " << WHI << buff;
 		//here you can add your code to process the received data: parse, check, authenticate, handle the command, etc...
+		if (buff.starts_with("/nick")) {
+			std::string nick = buff.substr(6);
+			cli.SetNick(nick);
+			std::cout << "Client <" << fd << "> Nickname: " << nick << std::endl;
+		} else if (buff.starts_with("/msg")) {
+			std::string msg = buff.substr(5);
+			std::cout << "Client <" << fd << "> Message: " << msg << std::endl;
+		} else if (buff.starts_with("/join")) {
+			std::string channel = buff.substr(6);
+			cli.SetChannel(channel);
+			std::cout << "Client <" << fd << "> Joined Channel: " << channel << std::endl;
+		} else if (buff.starts_with("/part")) {
+			std::string channel = buff.substr(6);
+			cli.SetChannel("");
+			std::cout << "Client <" << fd << "> Left Channel: " << channel << std::endl;
+		} else if (buff.starts_with("/quit")) {
+			std::string reason = buff.substr(6);
+			cli.SetReason(reason);
+			std::cout << "Client <" << fd << "> Quit Reason: " << reason << std::endl;
+		} else if (buff.starts_with("/who")) {
+			std::string user = buff.substr(5);
+			std::cout << "Client <" << fd << "> Who: " << user << std::endl;
+		}
 	}
 }
