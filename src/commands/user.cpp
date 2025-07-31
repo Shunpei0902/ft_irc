@@ -6,7 +6,7 @@
 /*   By: sasano <shunkotkg0141@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:09:18 by sasano            #+#    #+#             */
-/*   Updated: 2025/07/29 18:34:25 by sasano           ###   ########.fr       */
+/*   Updated: 2025/07/31 16:23:26 by sasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ void user(Server *server, int client_fd, ParsedMessage &msg)
     }
 
     // USER コマンドの引数が4つ未満の場合はエラーを返す
-    //irssi はデフォルトで4つ全てを返す
+    // irssi はデフォルトで4つ全てを返す
     // IRC protocol: USER <username> <hostname> <servername> <realname>
-    if (msg.params.size() < 3 || msg.params[0].empty())
+    if (msg.params.size() < 1 || msg.params[0].empty())
     {
         server->addToClientBuffer(client_fd, ERR_NEEDMOREPARAMS(client->getNickname(), "USER"));
         return;

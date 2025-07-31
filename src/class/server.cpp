@@ -6,7 +6,7 @@
 /*   By: sasano <shunkotkg0141@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 02:23:26 by sasano            #+#    #+#             */
-/*   Updated: 2025/07/31 13:07:50 by sasano           ###   ########.fr       */
+/*   Updated: 2025/07/31 16:14:04 by sasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,7 +321,6 @@ void Server::acceptNewClient()
 	struct pollfd newPoll;
 	socklen_t len = sizeof(cliadd);
 
-	std::cout << "AAAAA" << std::endl;
 	int incofd = accept(_serSocketFd, (sockaddr *)&(cliadd), &len); //-> accept the new client
 	if (incofd == -1)
 	{
@@ -335,10 +334,9 @@ void Server::acceptNewClient()
 		return;
 	}
 
-	newPoll.fd = incofd;	 //-> add the client socket to the pollfd
-	newPoll.events = POLLIN; //-> set the event to POLLIN for reading data
-	newPoll.revents = 0;	 //-> set the revents to 0
-	std::cout << "AAAAA" << std::endl;
+	newPoll.fd = incofd;						//-> add the client socket to the pollfd
+	newPoll.events = POLLIN;					//-> set the event to POLLIN for reading data
+	newPoll.revents = 0;						//-> set the revents to 0
 	cli.setFd(incofd);							//-> set the client file descriptor
 	cli.setIpAdd(inet_ntoa((cliadd.sin_addr))); //-> convert the ip address to string and set it
 	// _clients.push_back(cli);					//-> add the client to the vector of clients
@@ -346,7 +344,6 @@ void Server::acceptNewClient()
 	_clients.insert(std::make_pair(incofd, newClient));					//-> insert the client into the map of clients
 	// _clients[incofd]->setIpAdd(inet_ntoa(cliadd.sin_addr)); //
 	_fds.push_back(newPoll); //-> add the client socket to the pollfd
-	std::cout << "AAAAA" << std::endl;
 	std::cout << GRE << "Client <" << incofd << "> Connected" << WHI << std::endl;
 	std::string welcome = _welcomemsg();
 	if (send(incofd, welcome.c_str(), welcome.length(), 0) == -1)
