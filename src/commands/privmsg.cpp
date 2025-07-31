@@ -6,7 +6,7 @@
 /*   By: sasano <shunkotkg0141@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:19:32 by sasano            #+#    #+#             */
-/*   Updated: 2025/07/31 17:28:29 by sasano           ###   ########.fr       */
+/*   Updated: 2025/07/31 18:35:20 by sasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void privmsg(Server *server, int client_fd, ParsedMessage &msg)
                 server->addToClientBuffer(client_fd, ERR_NOSUCHNICK(client->getNickname(), target));
                 continue;
             }
-            server->addToClientBuffer(recipient->getFd(), ":" + client->getNickname() + " PRIVMSG " + target + " :" + message);
+            server->addToClientBuffer(recipient->getFd(), RPL_PRIVMSG(client->getNickname(), client->getUsername(), target, message));
             server->addToClientBuffer(client_fd, RPL_PRIVMSG(client->getNickname(), client->getUsername(), target, message));
         }
     }

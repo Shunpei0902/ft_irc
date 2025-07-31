@@ -6,107 +6,107 @@
 /*   By: sasano <shunkotkg0141@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:33 by sasano            #+#    #+#             */
-/*   Updated: 2025/07/31 08:44:54 by sasano           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:45:55 by sasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command.hpp"
 
-static void modeUser(Server *server, Client *client, ParsedMessage &msg)
-{
-    std::string nickname = msg.params[0];
+// static void modeUser(Server *server, Client *client, ParsedMessage &msg)
+// {
+//     std::string nickname = msg.params[0];
 
-    // 他人のモードは変更できない
-    if (nickname != client->getNickname())
-    {
-        server->addToClientBuffer(client->getFd(), ERR_USERSDONTMATCH(client->getNickname()));
-        return; // 他人のモードを変更しようとした場合はエラーを返す
-    }
+//     // 他人のモードは変更できない
+//     if (nickname != client->getNickname())
+//     {
+//         server->addToClientBuffer(client->getFd(), ERR_USERSDONTMATCH(client->getNickname()));
+//         return; // 他人のモードを変更しようとした場合はエラーを返す
+//     }
 
-    if (msg.params.size() == 1)
-    {
-        // 現在のユーザーモードを表示
-        if (client->getModes().empty())
-            server->addToClientBuffer(client->getFd(), RPL_UMODEIS(client->getNickname(), ""));
-        else
-        {
-            // std::string modes = "+" + client->getModes();
-            std::set<char> modes = client->getModes();
-            std::string modes_msg = "+" + std::string(modes.begin(), modes.end());
-            server->addToClientBuffer(client->getFd(), RPL_UMODEIS(client->getNickname(), modes_msg));
-        }
-        // server->addToClientBuffer(client->getFd(), RPL_UMODEIS(client->getNickname(), client->getModes()));
-        return;
-    }
+//     if (msg.params.size() == 1)
+//     {
+//         // 現在のユーザーモードを表示
+//         if (client->getModes().empty())
+//             server->addToClientBuffer(client->getFd(), RPL_UMODEIS(client->getNickname(), ""));
+//         else
+//         {
+//             // std::string modes = "+" + client->getModes();
+//             std::set<char> modes = client->getModes();
+//             std::string modes_msg = "+" + std::string(modes.begin(), modes.end());
+//             server->addToClientBuffer(client->getFd(), RPL_UMODEIS(client->getNickname(), modes_msg));
+//         }
+//         // server->addToClientBuffer(client->getFd(), RPL_UMODEIS(client->getNickname(), client->getModes()));
+//         return;
+//     }
 
-    std::string mode_str = msg.params[1];
-    if (mode_str[0] != '+' && mode_str[0] != '-')
-    {
-        server->addToClientBuffer(client->getFd(), ERR_UMODEUNKNOWNFLAG(client->getNickname()));
-        return; // モードの先頭が '+' または '-' でない場合はエラーを返す
-    }
+//     std::string mode_str = msg.params[1];
+//     if (mode_str[0] != '+' && mode_str[0] != '-')
+//     {
+//         server->addToClientBuffer(client->getFd(), ERR_UMODEUNKNOWNFLAG(client->getNickname()));
+//         return; // モードの先頭が '+' または '-' でない場合はエラーを返す
+//     }
 
-    bool add_mode = true;
-    // std::string applied_modes;
-    // size_t param_index = 2; // params[0]=channel, params[1]=modes, params[2]以降=引数
+//     bool add_mode = true;
+//     // std::string applied_modes;
+//     // size_t param_index = 2; // params[0]=channel, params[1]=modes, params[2]以降=引数
 
-    for (size_t i = 0; i < mode_str.size(); ++i)
-    {
-        if (mode_str[i] == '+')
-            add_mode = true;
-        else if (mode_str[i] == '-')
-            add_mode = false;
-        else
-        {
-            if (mode_str[i] == 'i')
-            {
-                if (add_mode)
-                {
-                    if (!client->hasMode('i'))
-                    {
-                        client->addMode('i');
-                        // applied_modes += "+i";
-                    }
-                }
-                else
-                {
-                    if (client->hasMode('i'))
-                    {
-                        client->removeMode('i');
-                        // applied_modes += "-i";
-                    }
-                }
-            }
-            else if (mode_str[i] == 'o')
-            {
-                if (!add_mode)
-                {
-                    if (client->hasMode('o'))
-                    {
-                        client->removeMode('o');
-                        // applied_modes += "-o";
-                    }
-                }
-                else
-                {
-                    // 通常ユーザー自身は +o はできない → 無視
-                    server->addToClientBuffer(client->getFd(), ERR_UMODEUNKNOWNFLAG(client->getNickname()));
-                }
-            }
-            else
-            {
-                server->addToClientBuffer(client->getFd(), ERR_UMODEUNKNOWNFLAG(client->getNickname()));
-            }
-        }
-    }
+//     for (size_t i = 0; i < mode_str.size(); ++i)
+//     {
+//         if (mode_str[i] == '+')
+//             add_mode = true;
+//         else if (mode_str[i] == '-')
+//             add_mode = false;
+//         else
+//         {
+//             if (mode_str[i] == 'i')
+//             {
+//                 if (add_mode)
+//                 {
+//                     if (!client->hasMode('i'))
+//                     {
+//                         client->addMode('i');
+//                         // applied_modes += "+i";
+//                     }
+//                 }
+//                 else
+//                 {
+//                     if (client->hasMode('i'))
+//                     {
+//                         client->removeMode('i');
+//                         // applied_modes += "-i";
+//                     }
+//                 }
+//             }
+//             else if (mode_str[i] == 'o')
+//             {
+//                 if (!add_mode)
+//                 {
+//                     if (client->hasMode('o'))
+//                     {
+//                         client->removeMode('o');
+//                         // applied_modes += "-o";
+//                     }
+//                 }
+//                 else
+//                 {
+//                     // 通常ユーザー自身は +o はできない → 無視
+//                     server->addToClientBuffer(client->getFd(), ERR_UMODEUNKNOWNFLAG(client->getNickname()));
+//                 }
+//             }
+//             else
+//             {
+//                 server->addToClientBuffer(client->getFd(), ERR_UMODEUNKNOWNFLAG(client->getNickname()));
+//             }
+//         }
+//     }
 
-    // 実行者に結果を返す
-    // if (!applied_modes.empty())
-    // {
-    // server->addToClientBuffer(client->getFd(), MODE_USERMSG(client->getNickname(), applied_modes));
-    server->addToClientBuffer(client->getFd(), MODE_USERMSG(client->getNickname(), mode_str));
-    // }
-}
+//     // 実行者に結果を返す
+//     // if (!applied_modes.empty())
+//     // {
+//     // server->addToClientBuffer(client->getFd(), MODE_USERMSG(client->getNickname(), applied_modes));
+//     server->addToClientBuffer(client->getFd(), MODE_USERMSG(client->getNickname(), mode_str));
+//     // }
+// }
 
 static void modeChannel(Server *server, Client *client, ParsedMessage &msg)
 {
@@ -242,5 +242,8 @@ void mode(Server *server, int client_fd, ParsedMessage &msg)
     if (target[0] == '#') // チャンネル名の場合
         modeChannel(server, client, msg);
     else // ニックネームの場合
-        modeUser(server, client, msg);
+    {
+        server->addToClientBuffer(client_fd, ERR_NEEDMOREPARAMS(client->getNickname(), "MODE"));
+        // modeUser(server, client, msg);
+    }
 }

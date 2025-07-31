@@ -6,7 +6,7 @@
 /*   By: sasano <shunkotkg0141@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:48:10 by sasano            #+#    #+#             */
-/*   Updated: 2025/07/31 16:46:51 by sasano           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:48:38 by sasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,7 @@ void join(Server *server, int client_fd, ParsedMessage &msg)
 
         if (isValidChannelName(channel_name) == false)
         {
-            server->addToClientBuffer(client_fd, ERR_NOSUCHCHANNEL(nick, channel_name));
-            // todo
+            server->addToClientBuffer(client_fd, ERR_NEEDMOREPARAMS(client->getNickname(), "JOIN"));
             continue; // 無効なチャンネル名はスキップ
         }
         // 先頭の"#"や"&"を除去
