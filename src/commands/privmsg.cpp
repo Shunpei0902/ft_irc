@@ -6,7 +6,7 @@
 /*   By: sasano <shunkotkg0141@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:19:32 by sasano            #+#    #+#             */
-/*   Updated: 2025/07/31 01:25:02 by sasano           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:28:29 by sasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void privmsg(Server *server, int client_fd, ParsedMessage &msg)
             }
             // channel->sendMessage(client, message);
             // channel->broadcast(server, ":" + client->getNickname() + " PRIVMSG " + target + " :" + message);
+            target = "#" + target; // チャンネル名を元に戻す
             channel->broadcast(server, RPL_PRIVMSG(client->getNickname(), client->getUsername(), target, message));
         }
         // ユーザー宛

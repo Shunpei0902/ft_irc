@@ -6,7 +6,7 @@
 /*   By: sasano <shunkotkg0141@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:48:10 by sasano            #+#    #+#             */
-/*   Updated: 2025/07/31 16:27:42 by sasano           ###   ########.fr       */
+/*   Updated: 2025/07/31 16:46:51 by sasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,10 +175,5 @@ void join(Server *server, int client_fd, ParsedMessage &msg)
         {
             server->addToClientBuffer(client_fd, RPL_NOTOPIC(nick, channel_name));
         }
-
-        // // NAMESリスト送信
-        // std::string members = channel->getNickListWithPrefix();
-        // server->addToClientBuffer(client_fd, RPL_NAMREPLY(nick, "=", channel_name, members));
-        // server->addToClientBuffer(client_fd, RPL_ENDOFNAMES(nick, channel_name));
     }
 }

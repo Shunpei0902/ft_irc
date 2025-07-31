@@ -6,7 +6,7 @@
 /*   By: sasano <shunkotkg0141@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 20:12:10 by sasano            #+#    #+#             */
-/*   Updated: 2025/07/31 12:55:03 by sasano           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:31:53 by sasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,6 @@ void Server::handleClientRegistrationCommand(std::map<int, Client *> &client, in
 	}
 	else if (msg.command == "NICK")
 	{
-		std::cout << "AAAA" << std::endl;
 		nick(this, client_fd, msg);
 	}
 	else if (msg.command == "USER")

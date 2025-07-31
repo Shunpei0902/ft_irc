@@ -6,7 +6,7 @@
 /*   By: sasano <shunkotkg0141@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 22:10:18 by sasano            #+#    #+#             */
-/*   Updated: 2025/07/30 15:46:58 by sasano           ###   ########.fr       */
+/*   Updated: 2025/07/31 16:44:42 by sasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int main(int argc, char **argv)
 			signal(SIGQUIT, Server::signalHandler);		//-> catch the signal (ctrl + \)
 			ser.serverInit(argv[1], argv[2], timeinfo); //-> initialize the server
 
-			// // 設定ファイルからサーバーの設定を読み込む
+			// 設定ファイルからサーバーの設定を読み込む
 			// char filename[39] = "srcs/config/ManageServOperators.config";
 			// ser.readFromConfigFile(filename);
 		}
