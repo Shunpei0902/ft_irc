@@ -6,7 +6,7 @@
 /*   By: sasano <shunkotkg0141@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 18:35:23 by sasano            #+#    #+#             */
-/*   Updated: 2025/07/31 02:36:34 by sasano           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:37:25 by sasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,18 @@ void quit(Server *server, int client_fd, ParsedMessage &msg)
         // クライアントにメッセージを送信
         server->addToClientBuffer(it->second->getFd(), RPL_QUIT(client->getNickname(), quit_msg));
     }
-    // クライアントが参加しているチャンネルからクライアントを削除
-    const std::map<std::string, Channel *> &channels = client->getChannels();
-    for (std::map<std::string, Channel *>::const_iterator it = channels.begin(); it != channels.end(); ++it)
-    {
-        // クライアントをチャンネルから削除
-        // QUIT による PART を模倣する
-        ParsedMessage part_msg;
-        part_msg.command = "PART";
-        part_msg.params.push_back(it->second->getName());
-        // part_msg.trailing = quit_msg;
-        part(server, client_fd, part_msg);
-    }
+    // // クライアントが参加しているチャンネルからクライアントを削除
+    // const std::map<std::string, Channel *> &channels = client->getChannels();
+    // for (std::map<std::string, Channel *>::const_iterator it = channels.begin(); it != channels.end(); ++it)
+    // {
+    //     // クライアントをチャンネルから削除
+    //     // QUIT による PART を模倣する
+    //     ParsedMessage part_msg;
+    //     part_msg.command = "PART";
+    //     part_msg.params.push_back(it->second->getName());
+    //     // part_msg.trailing = quit_msg;
+    //     part(server, client_fd, part_msg);
+    // }
     // クライアントをサーバーから切断
     server->clearClients(client_fd);
 }
