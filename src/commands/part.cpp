@@ -6,7 +6,7 @@
 /*   By: sasano <shunkotkg0141@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:48:27 by sasano            #+#    #+#             */
-/*   Updated: 2025/07/31 07:34:35 by sasano           ###   ########.fr       */
+/*   Updated: 2025/07/31 15:57:25 by sasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,12 @@ void part(Server *server, int client_fd, ParsedMessage &msg)
             server->addToClientBuffer(it->second->getFd(), RPL_PART(client->getNickname(), channel_name, part_msg));
         }
 
-        // クライアントをチャンネルから削除
-        channel->removeClient(*client);
         channel->removeOperator(client->getNickname()); // オペレーターからも削除
         if (channel->empty())
         {
             server->removeChannel(channel_name); // チャンネルが空になったら削除
         }
+        // クライアントをチャンネルから削除
+        channel->removeClient(*client);
     }
 }
