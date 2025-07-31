@@ -41,15 +41,10 @@ void user(Server *server, int client_fd, ParsedMessage &msg)
         return;
     }
 
-    // USER コマンドの引数が空の場合はエラーを返す
-    if (msg.params.empty() || msg.params[0].empty())
-    {
-        server->addToClientBuffer(client_fd, ERR_NEEDMOREPARAMS(client->getNickname(), "USER"));
-        return;
-    }
-
-    // USER コマンドの引数が3つ以上ある場合はエラーを返す
-    if (msg.params.size() > 2)
+    // USER コマンドの引数が4つ未満の場合はエラーを返す
+    //irssi はデフォルトで4つ全てを返す
+    // IRC protocol: USER <username> <hostname> <servername> <realname>
+    if (msg.params.size() < 3 || msg.params[0].empty())
     {
         server->addToClientBuffer(client_fd, ERR_NEEDMOREPARAMS(client->getNickname(), "USER"));
         return;
@@ -57,7 +52,9 @@ void user(Server *server, int client_fd, ParsedMessage &msg)
 
     // ユーザー名、リアル名を設定
     std::string username = msg.params[0];
-    std::string realname = msg.params.size() > 1 ? msg.params[1] : ""; // 2つ目の引数があればリアル名として使用
+    // std::string hostname = msg.params[1];  // 通常は無視される
+    // std::string servername = msg.params[2]; // 通常は無視される
+    std::string realname = msg.params.size() > 3 ? msg.params[3] : ""; // 4つ目の引数があればリアル名として使用
     if (!msg.trailing.empty())
     {
         // トレーリングメッセージがある場合は、リアル名として使用
