@@ -36,9 +36,12 @@ void topic(Server *server, int client_fd, ParsedMessage &msg)
         return; // チャンネルが存在しない場合はエラーを返す
     }
 
-    if (msg.params.size() == 1)
+    // Check if we have topic content to set (either in params[1] or trailing)
+    bool has_topic_content = (msg.params.size() >= 2) || !msg.trailing.empty();
+    
+    if (!has_topic_content)
     {
-        // トピックを取得してクライアントに送信
+        // トピックを取得してクライアントに送信 (no topic provided, just display current)
         std::string topic = channel->getTopic();
         if (topic.empty())
         {
@@ -56,17 +59,32 @@ void topic(Server *server, int client_fd, ParsedMessage &msg)
             server->addToClientBuffer(client_fd, ERR_NOTONCHANNEL(client->getNickname(), channel_name));
             return; // クライアントがチャンネルに参加していない場合はエラーを返す
         }
-        // トピックを設定
+        // トピックを設定 (check if user is operator when topic mode is set)
         if (channel->hasMode('t') && !channel->isOperator(client->getNickname()))
         {
             server->addToClientBuffer(client_fd, ERR_CHANOPRIVSNEEDED(client->getNickname(), channel_name));
             return; // オペレーターでない場合はエラーを返す
         }
-        std::string new_topic = msg.params[1];
+        
+        // Get topic from params[1] or trailing message
+        std::string new_topic;
+        if (msg.params.size() >= 2)
+        {
+            new_topic = msg.params[1];
+        }
+        else if (!msg.trailing.empty())
+        {
+            new_topic = msg.trailing;
+        }
+        else
+        {
+            new_topic = ""; // Empty topic
+        }
+        
         channel->setTopic(new_topic);
 
         // トピック設定のメッセージをチャンネル内の全員に送信
-        channel->broadcast(server, RPL_TOPIC(client->getNickname(), channel_name, new_topic));
+        channel->broadcast(server, RPL_TOPIC(client->getNickname(), channel_name, ":" + new_topic));
         // const std::map<std::string, Client> &members = channel->getClients();
         // for (const auto &member : members)
         // {
