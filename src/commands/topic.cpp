@@ -6,7 +6,7 @@
 /*   By: sasano <shunkotkg0141@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:28:49 by sasano            #+#    #+#             */
-/*   Updated: 2025/07/30 19:15:28 by sasano           ###   ########.fr       */
+/*   Updated: 2025/07/31 19:00:04 by sasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ void topic(Server *server, int client_fd, ParsedMessage &msg)
     if (!client)
         return; // クライアントが見つからない場合は何もしない
 
+    if (!msg.trailing.empty())
+    {
+        msg.params.push_back(msg.trailing);
+        msg.trailing.clear(); // トレーリングメッセージを引数に追加
+    }
     if (msg.params.empty())
     {
         server->addToClientBuffer(client_fd, ERR_NEEDMOREPARAMS(client->getNickname(), "TOPIC"));

@@ -6,7 +6,7 @@
 /*   By: sasano <shunkotkg0141@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:48:10 by sasano            #+#    #+#             */
-/*   Updated: 2025/07/31 17:48:38 by sasano           ###   ########.fr       */
+/*   Updated: 2025/07/31 19:10:03 by sasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ void join(Server *server, int client_fd, ParsedMessage &msg)
         //         server->addToClientBuffer(it->second->getFd(), join_msg);
         //     }
         // }
-        channel->broadcast(server, RPL_JOIN(nick, channel_name));
+        channel->broadcast(server, RPL_JOIN(user_id(nick, client->getUsername()), channel_name));
 
         // トピックがあれば送信
         if (!channel->getTopic().empty())

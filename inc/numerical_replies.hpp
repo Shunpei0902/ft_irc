@@ -17,7 +17,7 @@
 #define RPL_YOURHOST(client, servername, version) (":localhost 002 " + client + " :Your host is " + servername + " (localhost), running version " + version + "\r\n")
 #define RPL_CREATED(client, datetime) (":localhost 003 " + client + " :This server was created " + datetime + "\r\n")
 #define RPL_MYINFO(client, servername, version, user_modes, chan_modes, chan_param_modes) (":localhost 004 " + client + " " + servername + " " + version + " " + user_modes + " " + chan_modes + " " + chan_param_modes + "\r\n")
-#define RPL_ISUPPORT(client, tokens) (":localhost 005 " + client + " " + tokens " :are supported by this server\r\n")
+#define RPL_ISUPPORT(client, tokens) (":localhost 005 " + client + " +" + tokens " :are supported by this server\r\n")
 
 #define ERR_NOTREGISTERED(nickname) (":localhost 451 " + nickname + " :You have not registered\r\n")
 // #define ERR_NICKNAMEINUSE(nickname) (":localhost 433 " + nickname + " :Nickname is already in use\r\n")
@@ -34,7 +34,7 @@
 #define RPL_INVITE(user_id, invited, channel) (user_id + " INVITE " + invited + " #" + channel + "\r\n")
 
 // JOIN
-#define RPL_JOIN(user_id, channel) (user_id + " JOIN :#" + channel + "\r\n")
+#define RPL_JOIN(user_id, channel) (user_id + " JOIN #" + channel + "\r\n")
 #define ERR_BANNEDFROMCHAN(client, channel) ("474 " + client + " #" + channel + " :Cannot join channel (+b)\r\n")
 #define ERR_BADCHANNELKEY(client, channel) ("475 " + client + " #" + channel + " :Cannot join channel (+k)\r\n")
 // #define ERR_CHANNELISFULL(client, channel) (client + " #" + channel + " :Cannot join channel (+l)\r\n")
@@ -114,7 +114,7 @@
 #define RPL_PRIVMSG(nick, username, target, message) (":" + nick + "!" + username + "@localhost PRIVMSG " + target + " :" + message + "\r\n")
 
 // TOPIC
-#define RPL_TOPIC(client, channel, topic) (":localhost 332 " + client + " #" + channel + " " + topic + "\r\n")
+#define RPL_TOPIC(client, channel, topic) (":localhost 332 " + client + " #" + channel + " :" + topic + "\r\n")
 #define RPL_NOTOPIC(client, channel) (":localhost 331 " + client + " #" + channel + " :No topic is set\r\n")
 
 // USER
