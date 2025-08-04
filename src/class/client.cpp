@@ -6,7 +6,7 @@
 /*   By: sasano <shunkotkg0141@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 19:25:39 by sasano            #+#    #+#             */
-/*   Updated: 2025/07/30 23:11:21 by sasano           ###   ########.fr       */
+/*   Updated: 2025/08/04 16:26:20 by sasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,6 @@ void Client::setUsername(const std::string &user) { _username = user; }
 
 std::string Client::getRealname() const { return _realname; }
 void Client::setRealname(const std::string &realname) { _realname = realname; }
-
-// std::string Client::getHostname() const { return _hostname; }
-// void Client::setHostname(const std::string& host) { _hostname = host; }
 
 const std::set<char> &Client::getModes() const { return _modes; }
 void Client::addMode(char mode)

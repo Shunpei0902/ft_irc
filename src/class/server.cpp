@@ -6,14 +6,16 @@
 /*   By: sasano <shunkotkg0141@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 02:23:26 by sasano            #+#    #+#             */
-/*   Updated: 2025/07/31 16:14:04 by sasano           ###   ########.fr       */
+/*   Updated: 2025/08/04 15:40:14 by sasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "irc.hpp"
 #include "client.hpp"
 #include "channel.hpp"
 #include "server.hpp"
 #include "color.hpp"
+#include "command.hpp"
 
 bool Server::_signal = false;
 
@@ -98,14 +100,21 @@ void Server::clearClients(int fd)
 	}
 	// クライアントのチャンネルからクライアントを削除
 	std::map<std::string, Channel *> channels = it_client->second->getChannels();
-	for (std::map<std::string, Channel *>::iterator it_channel = channels.begin(); it_channel != channels.end(); ++it_channel)
+	for (std::map<std::string, Channel *>::iterator it_channel = channels.begin(); it_channel != channels.end();)
 	{
 		Channel *channel = it_channel->second;
-		channel->removeClient(*it_client->second); // チャンネルからクライアントを削除
-		if (channel->getClients().empty())
-		{
-			removeChannel(channel->getName()); // チャンネルが空なら削除
-		}
+		// std::map<std::string, Channel *>::iterator toErase = it_channel;
+		++it_channel; // 次のチャンネルへ進む
+		ParsedMessage part_msg;
+		part_msg.command = "PART";
+		part_msg.params.push_back(channel->getName());
+		part_msg.trailing.clear(); // トレーリングメッセージをクリア
+		part(this, fd, part_msg);  // PART コマンドを実行
+								   // channel->removeClient(*it_client->second); // チャンネルからクライアントを削除
+								   // if (channel->getClients().empty())
+								   // {
+								   // 	removeChannel(channel->getName()); // チャンネルが空なら削除
+								   // }
 	}
 	// クライアントのファイルディスクリプタを閉じる
 	for (size_t i = 0; i < _fds.size(); i++)

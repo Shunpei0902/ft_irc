@@ -6,7 +6,7 @@
 /*   By: sasano <shunkotkg0141@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:48:10 by sasano            #+#    #+#             */
-/*   Updated: 2025/07/31 17:48:38 by sasano           ###   ########.fr       */
+/*   Updated: 2025/08/04 16:02:21 by sasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,12 +131,12 @@ void join(Server *server, int client_fd, ParsedMessage &msg)
             server->addToClientBuffer(client_fd, ERR_CHANNELISFULL(nick, channel_name));
             continue; // チャンネルが満員の場合はスキップ
         }
-        // チャンネルにバンされているか確認
-        if (channel->isBanned(nick))
-        {
-            server->addToClientBuffer(client_fd, ERR_BANNEDFROMCHAN(nick, channel_name));
-            continue; // バンされている場合はスキップ
-        }
+        // // チャンネルにバンされているか確認
+        // if (channel->isBanned(nick))
+        // {
+        //     server->addToClientBuffer(client_fd, ERR_BANNEDFROMCHAN(nick, channel_name));
+        //     continue; // バンされている場合はスキップ
+        // }
         // Invite-onlyモードのチャンネルに参加する場合、オペレーターからの招待が必要
         if (channel->hasMode('i') && !channel->isInvited(nick))
         {
