@@ -20,13 +20,24 @@ void ping(Server *server, int client_fd, ParsedMessage &msg)
         return; // クライアントが見つからない場合は何もしない
     }
 
-    if (msg.params.empty())
+    std::string ping_token;
+    
+    // Check for token in params first, then in trailing
+    if (!msg.params.empty())
+    {
+        ping_token = msg.params[0];
+    }
+    else if (!msg.trailing.empty())
+    {
+        ping_token = msg.trailing;
+    }
+    else
     {
         server->addToClientBuffer(client_fd, ERR_NEEDMOREPARAMS(client->getNickname(), "PING"));
         return;
     }
 
-    // PONG メッセージを送信
-    std::string response = "PONG : " + msg.params[0];
+    // PONG メッセージを送信 (RFC format: PONG server :token)
+    std::string response = ":localhost PONG localhost :" + ping_token + "\r\n";
     server->addToClientBuffer(client_fd, response);
 }

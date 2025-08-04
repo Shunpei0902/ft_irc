@@ -1,0 +1,9 @@
+ircserv
+compile_commands.json
+obj/
+.zed
+.cache/
+CLAUDE.md
+context/
+en.ft_irc.pdf
+ft_irc correction.html

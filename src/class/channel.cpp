@@ -6,7 +6,7 @@
 /*   By: sasano <shunkotkg0141@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 19:12:50 by sasano            #+#    #+#             */
-/*   Updated: 2025/07/31 08:59:28 by sasano           ###   ########.fr       */
+/*   Updated: 2025/08/04 16:01:54 by sasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,12 @@ bool Channel::hasClient(const Client &client) const
 // オペレータ管理
 void Channel::addOperator(const std::string &nickname)
 {
+    std::cout << "Adding operator: " << nickname << " to channel: " << _name << std::endl;
     _operators.insert(nickname);
 }
 void Channel::removeOperator(const std::string &nickname)
 {
+    std::cout << "Removing operator: " << nickname << " from channel: " << _name << std::endl;
     _operators.erase(nickname);
 }
 bool Channel::isOperator(const std::string &nickname) const
@@ -114,23 +116,23 @@ std::set<char> Channel::getModes() const
 }
 
 // BAN管理
-void Channel::ban(const std::string &nickname)
-{
-    _banList.insert(nickname);
-    addMode('b'); // +b モードを追加
-}
-void Channel::unban(const std::string &nickname)
-{
-    _banList.erase(nickname);
-    if (_banList.empty())
-    {
-        removeMode('b'); // BANリストが空になった場合、+b モードを削除
-    }
-}
-bool Channel::isBanned(const std::string &nickname) const
-{
-    return _banList.find(nickname) != _banList.end();
-}
+// void Channel::ban(const std::string &nickname)
+// {
+//     _banList.insert(nickname);
+//     addMode('b'); // +b モードを追加
+// }
+// void Channel::unban(const std::string &nickname)
+// {
+//     _banList.erase(nickname);
+//     if (_banList.empty())
+//     {
+//         removeMode('b'); // BANリストが空になった場合、+b モードを削除
+//     }
+// }
+// bool Channel::isBanned(const std::string &nickname) const
+// {
+//     return _banList.find(nickname) != _banList.end();
+// }
 
 void Channel::addInvite(const std::string &nickname)
 {

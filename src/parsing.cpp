@@ -6,7 +6,7 @@
 /*   By: sasano <shunkotkg0141@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 20:12:10 by sasano            #+#    #+#             */
-/*   Updated: 2025/07/31 17:31:53 by sasano           ###   ########.fr       */
+/*   Updated: 2025/08/04 15:35:19 by sasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,8 @@ static void sendClientRegistration(Server *server, int client_fd, std::map<int, 
 	server->addToClientBuffer(client_fd, RPL_WELCOME(user_id(it->second->getNickname(), it->second->getUsername()), it->second->getNickname()));
 	server->addToClientBuffer(client_fd, RPL_YOURHOST(it->second->getNickname(), "localhost", "ft_irc"));
 	server->addToClientBuffer(client_fd, RPL_CREATED(it->second->getNickname(), static_cast<std::string>(ctime(&now)).substr(0, 24)));
-	server->addToClientBuffer(client_fd, RPL_MYINFO(it->second->getNickname(), "localhost", "ft_irc", "i", "", "kl"));
+	server->addToClientBuffer(client_fd, RPL_MYINFO(it->second->getNickname(), "localhost", "ft_irc", "", "", ""));
+	std::cout << "Client registration complete for fd: " << client_fd << std::endl;
 }
 
 // クライアントからの1行を解析 -> コマンドを実行

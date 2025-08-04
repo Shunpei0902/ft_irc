@@ -6,7 +6,7 @@
 /*   By: sasano <shunkotkg0141@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 19:24:37 by sasano            #+#    #+#             */
-/*   Updated: 2025/07/31 09:00:20 by sasano           ###   ########.fr       */
+/*   Updated: 2025/08/04 16:02:19 by sasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ private:
 
     std::map<std::string, Client *> _clients; // ニックネーム → Client
     std::set<std::string> _operators;         // オペレータ（ニックネーム）
-    std::set<std::string> _banList;           // BANされてるニックネーム
-    std::set<std::string> _inviteList;        // 招待されたニックネーム（+i モード用）
+    // std::set<std::string> _banList;           // BANされてるニックネーム
+    std::set<std::string> _inviteList; // 招待されたニックネーム（+i モード用）
 
     std::set<char> _modes; // 有効なモード (+k, +l, +i, +b など)
     bool _inviteOnly;      // +i モード（招待制）
@@ -70,9 +70,9 @@ public:
     std::set<char> getModes() const;
 
     // BAN管理
-    void ban(const std::string &nickname);
-    void unban(const std::string &nickname);
-    bool isBanned(const std::string &nickname) const;
+    // void ban(const std::string &nickname);
+    // void unban(const std::string &nickname);
+    // bool isBanned(const std::string &nickname) const;
 
     // 招待管理
     void addInvite(const std::string &nickname);
